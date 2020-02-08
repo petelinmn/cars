@@ -10,8 +10,8 @@ using Dapper;
 
 namespace ReactApp.Controllers
 {
-    public class PersonsRepository {
-        public static string ConnectionString { get; set; } = "Data Source=localhost;Initial Catalog=Persons;Trusted_Connection=True;";
+    public class PersonRepository {
+        public static string ConnectionString { get; set; } = "Data Source=localhost;Initial Catalog=Cars;Trusted_Connection=True;";
 
 
         public static Person[] GetPersons()

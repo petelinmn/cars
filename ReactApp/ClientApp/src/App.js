@@ -8,6 +8,7 @@ import { Counter } from './components/Counter';
 import './custom.css'
 import { Persons } from './components/Persons';
 
+
 export default class App extends Component {
   static displayName = App.name;
 
@@ -18,6 +19,7 @@ export default class App extends Component {
         <Route path='/counter' component={Counter} />
         <Route path='/fetch-data' component={FetchData} />
         <Route path='/persons' component={Persons} />
+        <Route path='/persons/:id' component={Persons} />
       </Layout>
     );
   }

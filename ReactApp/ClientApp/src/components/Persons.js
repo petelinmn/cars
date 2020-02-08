@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-
+import { Person } from './Person';
 export class Persons extends Component {
-  static displayName = Persons.name;
+  
 
   constructor(props) {
     super(props);
@@ -23,11 +23,11 @@ export class Persons extends Component {
           </tr>
         </thead>
         <tbody>
-          {Persons.map((Person, index) =>
+          {persons.map((item, index) =>
             <tr key={index}>
-              <td>{Person.name}</td>
-              <td>{Person.surname}</td>
-              <td>{Person.age}</td>
+              <td>{item.name}</td>
+              <td>{item.surname}</td>
+              <td>{item.age}</td>
             </tr>
           )}
         </tbody>
@@ -36,6 +36,7 @@ export class Persons extends Component {
   }
 
   render() {
+    console.log(this.props);
     let contents = this.state.loading
       ? <p><em>Loading...</em></p>
       : Persons.renderPersonsTable(this.state.persons);
@@ -50,7 +51,7 @@ export class Persons extends Component {
   }
 
   async updatePersonData() {
-    const response = await fetch('Persons');
+    const response = await fetch('Person');
     const data = await response.json();
     this.setState({ persons: data, loading: false });
   }

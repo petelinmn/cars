@@ -2,7 +2,7 @@ using System;
 
 namespace ReactApp
 {
-    public class Persons
+    public class Person
     {
         public int Id { get; set; }
         public string Name { get; set; }
