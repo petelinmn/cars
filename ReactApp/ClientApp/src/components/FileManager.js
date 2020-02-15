@@ -1,62 +1,5 @@
 import React, { Component } from 'react';
 
-function getDir(data, path) {
-    //Если путь пустой значит возвращаем эту же папку
-    if(path.length === 0)
-        return data;
-    
-    //Название следующей папки
-    const next = path[0];
-    //Ищем объект следующая папка
-    const nextDir = data.dirs.find(item => item.name === next);
-    if(!nextDir)
-        return null; //Видимо какой то косяк
-    
-    //Если это был последний элемент пути
-    if(path.length === 1) {
-        return nextDir; //Возвращаем то что искали
-    } else {
-        return getDir(nextDir, path.slice(1)) //ищем глубже
-    }
-}
-
-const data = {
-  name: 'diskD',
-  files: ['file1.txt', 'file2.txt'],
-  dirs: [
-      { 
-          name: 'documents',
-          files: ['phones.txt', 'tickets.doc', 'resume.rtf'],
-          dirs: [
-              {
-                  name: 'Старые документы',
-                  files: ['курсовая.pdf']
-              },
-              {
-                  name: 'Новые документы',
-                  files: ['Записки рыбака.txt', 'Бухло.jpg']
-              }
-          ]
-      },
-      {
-          name: 'music',
-          dirs: [
-              {
-                  name: 'Русский рок',
-                  dirs: [
-                      {
-                          name: 'скучное',
-                          files: ['хара мамбуру.mp3']
-                      }
-                  ],
-                  files: ['БГ-Аделаида.mp3', 'Сплин-Мое сердце.mp3']
-              }
-          ]
-      }
-  ]
-}
-
-
 export class FileManager extends Component {
     constructor(props) {
         super(props);
@@ -70,11 +13,15 @@ export class FileManager extends Component {
         this.setState ({path: this.state.path.slice(0, index)})
     }
     componentDidMount() {
-      console.log('componentDidMount');
+      fetch('FileManager/getpath/discD@' + this.state.path.length ? this.state.path.join('@') : ''
+      ).then(res => {
+        res.json().then(data=>{console.log(data)})
+      })
 
     }
     render() {
-        const dir = getDir(data, this.state.path)
+        const dir = {}//getDir(data, this.state.path)
+        let data = {};
         return (
             <div>
             <div>
