@@ -73,14 +73,14 @@ export class Persons extends Component {
     this.updatePersonData();
   }
 
-  static renderPersonsTable(persons) {
+  static renderPersonsTable(persons, deletePerson) {
     return (
       <table className='table table-striped' aria-labelledby="tabelLabel">
         <thead>
           <tr>
             <th>Имя</th>
             <th>Фамилия</th>
-            <th>Возраст</th>
+            <th colSpan="3">Возраст</th>
           </tr>
         </thead>
         <tbody>
@@ -89,6 +89,8 @@ export class Persons extends Component {
               <td>{item.name}</td>
               <td>{item.surname}</td>
               <td>{item.age}</td>
+              <td onClick = {() => {deletePerson(item.id)}}>X</td>
+              <td><button type="button" className="btn btn-primary" onClick={()=>{console.log(item)}}>Редактировать</button></td>
             </tr>
           )}
         </tbody>
@@ -98,6 +100,15 @@ export class Persons extends Component {
 
   onAdd() {
     this.setState({editMode: true});
+  }
+  deletePerson (id) {
+    fetch('Person/delete/' + id, {
+      method: 'DELETE', 
+      headers: { 'Content-Type': 'application/json' },
+    }).then(() => {
+      this.setState({editMode: false});
+      this.updatePersonData();
+    })
   }
 
   render() {
@@ -114,7 +125,7 @@ export class Persons extends Component {
 
     let contents = this.state.loading
       ? <p><em>Loading...</em></p>
-      : Persons.renderPersonsTable(this.state.persons);
+      : Persons.renderPersonsTable(this.state.persons, this.deletePerson.bind(this));
 
     return (
       <div>

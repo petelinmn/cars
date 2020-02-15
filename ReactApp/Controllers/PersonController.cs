@@ -143,5 +143,14 @@ namespace ReactApp.Controllers
         {
             PersonRepository.Add(person);
         }
+
+        [HttpDelete]
+        [Route("delete/{id}")]
+        public void Delete (int id)
+        {
+            PersonRepository.Delete(id);
+        }
+    
+        
     }
 }

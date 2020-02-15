@@ -7,6 +7,7 @@ import { Counter } from './components/Counter';
 
 import './custom.css'
 import { Persons } from './components/Persons';
+import { FileManager } from './components/FileManager';
 
 
 export default class App extends Component {
@@ -20,6 +21,7 @@ export default class App extends Component {
         <Route path='/fetch-data' component={FetchData} />
         <Route path='/persons' component={Persons} />
         <Route path='/persons/:id' component={Persons} />
+        <Route path='/filemanager' component={FileManager} />
       </Layout>
     );
   }
