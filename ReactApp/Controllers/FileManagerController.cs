@@ -34,22 +34,55 @@ namespace ReactApp.Controllers
         }
 
         [HttpGet]
-        [Route("getpath/{path}")]
-        public Dir Get(string path)
+        [Route("{disk}")]
+        [Route("{disk}/{path}")]
+        public ActionResult Get(string disk, string path)
         {
-            path = path.Replace("discD", "ClientApp").Replace("@", @"\");
-            var dir = new DirectoryInfo(path);
-            
-            var dirs = dir.GetDirectories(path);
-            var files = dir.GetFiles(path);
-            return new Dir()
+            try
             {
-                Name = dir.Name,
-                Files = files.Select(f => f.Name).ToArray(),
-                Dirs = dirs.Select(d => d.Name).ToArray()
-            };
+                var url = disk + @":\\" + path?.Replace("@", @"\\");
+                var dir = new DirectoryInfo(url);
+
+                var dirs = dir.GetDirectories();
+                var files = dir.GetFiles();
+                return new JsonResult(new {
+                    Success = true,
+                    Result = new Dir()
+                    {
+                        Name = dir.Name,
+                        Files = files.Select(f => f.Name).ToArray(),
+                        Dirs = dirs.Select(d => d.Name).ToArray()
+                    }
+                });
+            }
+            catch(Exception exception)
+            {
+                return new JsonResult(new { 
+                    Success = false,
+                    ErrorMessage = exception.Message
+                });
+            }
         }
-            
-        
+
+        [HttpGet]
+        [Route("disks")]
+        public ActionResult GetAllDisks()
+        {
+            try
+            {
+                return new JsonResult(new
+                {
+                    Success = true,
+                    Result = DriveInfo.GetDrives().Select(d => d.Name.Substring(0, 1)).ToArray()
+                });
+            }
+            catch(Exception ex)
+            {
+                return new JsonResult(new {
+                    Success = true,
+                    ErrorMessage = ex.Message
+                });
+            }
+        }
     }
 }
